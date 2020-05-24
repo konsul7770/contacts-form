@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="text-align: center; margin-top: 10%">
+    <form id="form">
+        <div>
+            <label for="fio">ФИО</label>
+            <input type="text" id="fio"/>
+        </div>
+        <div id="phonenumber" style="margin-top: 10px;margin-bottom: 10px">
+            <label for="phone">Телефон</label>
+            <input type="text" id="phone"/>
+            <input type="button" value="+" id="plus" onclick="createField()" style="margin-left: 10px;">
+        </div>
+        <div id="commentdiv">
+            <label for="comment">Коментарий</label>
+            <textarea id="comment"></textarea>
+        </div>
+        <button id="send" type="submit" onclick="new Person().send()">Send</button>
+    </form>
+</div>
+<script>
+    window.onload = () => document.getElementById("send").addEventListener(
+        "click",(e) => {
+            e.preventDefault();
+            setTimeout(() => document.getElementById("form").submit(),2000)
+        },false
+    )
+
+    class Person{
+        constructor(){
+            this.fio = "Иванов И И";
+            this.phone ="+375292999999";
+            this.comment = "Комментарий";
+        }
+    }
+
+    Person.prototype.send = function () {
+        let p = new Person();
+        document.getElementById("fio").value = p.fio;
+        document.getElementById("phone").value = p.phone;
+        document.getElementById("comment").value = p.comment;
+    };
+
+    let count = 1;
+    function createField() {
+        count++;
+        let newPhone = document.createElement("div");
+        let number = document.createElement("input");
+
+        number.style.marginRight = "10px";
+
+        let label = document.createElement("label");
+        label.innerText = "Телефон "+count;
+
+        newPhone.appendChild(label);
+        newPhone.appendChild(number);
+
+        let commentdiv = document.getElementById("commentdiv");
+        let plus = document.getElementById("plus");
+
+        let parentPlus = plus.parentElement;
+        parentPlus.removeChild(plus);
+        newPhone.appendChild(plus);
+        newPhone.style.marginTop = "10px";
+        newPhone.style.marginBottom = "10px";
+        commentdiv.before(newPhone);
+    }
+</script>
+</body>
+</html>
